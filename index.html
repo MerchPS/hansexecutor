@@ -1,49 +1,410 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pseudocode Executor</title>
 <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    textarea { width: 100%; height: 150px; }
-    #output { background: #f4f4f4; padding: 10px; margin-top: 10px; }
+    :root {
+        --primary-color: #4a6fa5;
+        --secondary-color: #166088;
+        --accent-color: #4cb5f5;
+        --light-color: #f8f9fa;
+        --dark-color: #343a40;
+        --success-color: #28a745;
+        --danger-color: #dc3545;
+        --warning-color: #ffc107;
+    }
+    
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--dark-color);
+        background-color: #f5f7fa;
+        padding: 20px;
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    
+    .container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        padding: 25px;
+        margin-bottom: 20px;
+    }
+    
+    h1, h2 {
+        color: var(--primary-color);
+    }
+    
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--accent-color);
+    }
+    
+    .instructions {
+        background-color: #e9ecef;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 20px;
+    }
+    
+    textarea {
+        width: 100%;
+        height: 200px;
+        padding: 12px;
+        border: 1px solid #ced4da;
+        border-radius: 4px;
+        font-family: 'Courier New', monospace;
+        font-size: 16px;
+        resize: vertical;
+        box-sizing: border-box;
+        transition: border-color 0.3s;
+    }
+    
+    textarea:focus {
+        border-color: var(--accent-color);
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(76, 181, 245, 0.2);
+    }
+    
+    .button-group {
+        display: flex;
+        gap: 10px;
+        margin: 15px 0;
+    }
+    
+    button {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    
+    .btn-run {
+        background-color: var(--success-color);
+        color: white;
+    }
+    
+    .btn-run:hover {
+        background-color: #218838;
+    }
+    
+    .btn-clear {
+        background-color: var(--warning-color);
+        color: var(--dark-color);
+    }
+    
+    .btn-clear:hover {
+        background-color: #e0a800;
+    }
+    
+    .btn-reset {
+        background-color: var(--danger-color);
+        color: white;
+    }
+    
+    .btn-reset:hover {
+        background-color: #c82333;
+    }
+    
+    .output-container {
+        margin-top: 20px;
+    }
+    
+    #output {
+        background: var(--light-color);
+        padding: 15px;
+        border-radius: 4px;
+        border-left: 4px solid var(--accent-color);
+        min-height: 100px;
+        white-space: pre-wrap;
+        font-family: 'Courier New', monospace;
+    }
+    
+    .variables-panel {
+        margin-top: 20px;
+        background: #e9f7fe;
+        padding: 15px;
+        border-radius: 4px;
+        border-left: 4px solid var(--secondary-color);
+    }
+    
+    .variables-panel h3 {
+        margin-top: 0;
+        color: var(--secondary-color);
+    }
+    
+    #variables {
+        font-family: 'Courier New', monospace;
+    }
+    
+    .error {
+        color: var(--danger-color);
+        font-weight: bold;
+    }
+    
+    .line-number {
+        color: #6c757d;
+        margin-right: 10px;
+        font-size: 0.9em;
+    }
+    
+    .example-link {
+        color: var(--accent-color);
+        cursor: pointer;
+        text-decoration: underline;
+    }
+    
+    footer {
+        text-align: center;
+        margin-top: 30px;
+        color: #6c757d;
+        font-size: 0.9em;
+    }
 </style>
 </head>
 <body>
-<h2>Algoritma Executor Online</h2>
-<textarea id="code" placeholder="Tulis algoritma di sini..."></textarea><br>
-<button onclick="runCode()">Run</button>
-<div id="output"></div>
+    <h1>Pseudocode Executor</h1>
+    
+    <div class="container">
+        <div class="instructions">
+            <h3>Cara Penggunaan:</h3>
+            <p>Gunakan sintaks berikut dalam pseudocode Anda:</p>
+            <ul>
+                <li><code>READ nama_variabel</code> - Untuk membaca input dari pengguna</li>
+                <li><code>WRITE nilai/teks</code> - Untuk menampilkan output</li>
+                <li><code>variabel ← ekspresi</code> - Untuk assignment nilai (gunakan ← bukan &lt;-)</li>
+            </ul>
+            <p>Contoh: <span class="example-link" id="loadExample">Muat contoh algoritma</span></p>
+        </div>
+        
+        <textarea id="code" placeholder="Tulis algoritma di sini...
+Contoh:
+READ radius
+pi ← 3.14
+luas ← pi * radius * radius
+WRITE luas"></textarea>
+        
+        <div class="button-group">
+            <button class="btn-run" onclick="runCode()">Jalankan Kode</button>
+            <button class="btn-clear" onclick="clearOutput()">Bersihkan Output</button>
+            <button class="btn-reset" onclick="resetAll()">Reset Semua</button>
+        </div>
+        
+        <div class="output-container">
+            <h2>Output</h2>
+            <div id="output">Output akan ditampilkan di sini...</div>
+        </div>
+        
+        <div class="variables-panel">
+            <h3>Variabel Saat Ini</h3>
+            <div id="variables">Tidak ada variabel</div>
+        </div>
+    </div>
+    
+    <footer>
+        Pseudocode Executor &copy; 2023 - Dibuat untuk memudahkan pembelajaran algoritma
+    </footer>
 
-<script>
-function runCode() {
-    const code = document.getElementById("code").value.trim().split("\n");
-    let vars = {};
-    let output = "";
-
-    for (let line of code) {
-        line = line.trim();
-        if (!line) continue;
-
-        if (line.startsWith("READ")) {
-            let varName = line.split(" ")[1];
-            let val = prompt(`Masukkan nilai untuk ${varName}:`);
-            vars[varName] = Number(val);
-        } else if (line.startsWith("WRITE")) {
-            let varName = line.split(" ")[1];
-            output += (vars[varName] !== undefined ? vars[varName] : varName) + "<br>";
-        } else if (line.includes("←")) {
-            let [varName, expr] = line.split("←").map(s => s.trim());
-            for (let key in vars) {
-                expr = expr.replace(new RegExp("\\b" + key + "\\b", "g"), vars[key]);
+    <script>
+        // Objek untuk menyimpan variabel
+        let vars = {};
+        
+        // Fungsi untuk menjalankan kode
+        function runCode() {
+            const codeText = document.getElementById("code").value.trim();
+            if (!codeText) {
+                showOutput("error", "Tidak ada kode untuk dijalankan.");
+                return;
             }
-            vars[varName] = eval(expr);
+            
+            const codeLines = codeText.split("\n");
+            let output = "";
+            vars = {}; // Reset variabel setiap run
+            
+            // Bersihkan output sebelumnya
+            clearOutput();
+            
+            for (let i = 0; i < codeLines.length; i++) {
+                let line = codeLines[i].trim();
+                if (!line) continue;
+                
+                try {
+                    if (line.startsWith("READ")) {
+                        processRead(line, i+1);
+                    } else if (line.startsWith("WRITE")) {
+                        output += processWrite(line, i+1) + "\n";
+                    } else if (line.includes("←")) {
+                        processAssignment(line, i+1);
+                    } else {
+                        showOutput("error", `Error pada baris ${i+1}: Sintaks tidak dikenali - "${line}"`);
+                    }
+                } catch (error) {
+                    showOutput("error", `Error pada baris ${i+1}: ${error.message}`);
+                    return;
+                }
+            }
+            
+            // Tampilkan output
+            if (output) {
+                showOutput("normal", output);
+            } else {
+                showOutput("normal", "Program selesai dieksekusi. Tidak ada output yang dihasilkan.");
+            }
+            
+            // Perbarui tampilan variabel
+            updateVariablesPanel();
         }
-    }
-
-    document.getElementById("output").innerHTML = output || "Tidak ada output";
-}
-</script>
+        
+        // Proses statement READ
+        function processRead(line, lineNumber) {
+            const parts = line.split(" ");
+            if (parts.length !== 2) {
+                throw new Error(`Sintaks READ tidak valid. Gunakan: READ nama_variabel`);
+            }
+            
+            const varName = parts[1];
+            let inputValue = prompt(`Masukkan nilai untuk ${varName}:`);
+            
+            if (inputValue === null) {
+                throw new Error("Input dibatalkan oleh pengguna");
+            }
+            
+            inputValue = inputValue.trim();
+            const numericValue = parseFloat(inputValue);
+            
+            if (isNaN(numericValue)) {
+                throw new Error(`Input harus numerik untuk variabel ${varName}`);
+            }
+            
+            vars[varName] = numericValue;
+        }
+        
+        // Proses statement WRITE
+        function processWrite(line, lineNumber) {
+            const expression = line.substring(5).trim();
+            
+            if (!expression) {
+                throw new Error("Sintaks WRITE tidak valid. Gunakan: WRITE nilai/teks");
+            }
+            
+            // Coba evaluasi sebagai ekspresi matematika
+            try {
+                const result = evaluateExpression(expression);
+                return result;
+            } catch (e) {
+                // Jika bukan ekspresi matematika, anggap sebagai teks
+                return expression;
+            }
+        }
+        
+        // Proses assignment
+        function processAssignment(line, lineNumber) {
+            const parts = line.split("←");
+            if (parts.length !== 2) {
+                throw new Error("Sintaks assignment tidak valid. Gunakan: variabel ← ekspresi");
+            }
+            
+            const varName = parts[0].trim();
+            const expression = parts[1].trim();
+            
+            if (!varName) {
+                throw new Error("Nama variabel tidak boleh kosong");
+            }
+            
+            if (!expression) {
+                throw new Error("Ekspresi tidak boleh kosong");
+            }
+            
+            // Evaluasi ekspresi
+            const result = evaluateExpression(expression);
+            vars[varName] = result;
+        }
+        
+        // Fungsi untuk mengevaluasi ekspresi matematika dengan aman
+        function evaluateExpression(expr) {
+            // Ganti semua variabel dalam ekspresi dengan nilainya
+            let evaluatedExpr = expr;
+            for (const [varName, value] of Object.entries(vars)) {
+                const regex = new RegExp(`\\b${varName}\\b`, 'g');
+                evaluatedExpr = evaluatedExpr.replace(regex, value);
+            }
+            
+            // Validasi ekspresi untuk mencegah kode berbahaya
+            const safeExpr = evaluatedExpr.replace(/[^0-9+\-*/().]/g, '');
+            
+            try {
+                // Gunakan Function constructor untuk evaluasi yang lebih aman
+                return Function(`"use strict"; return (${safeExpr})`)();
+            } catch (e) {
+                throw new Error(`Ekspresi tidak valid: ${expr}`);
+            }
+        }
+        
+        // Tampilkan output
+        function showOutput(type, content) {
+            const outputElement = document.getElementById("output");
+            
+            if (type === "error") {
+                outputElement.innerHTML = `<span class="error">${content}</span>`;
+            } else {
+                outputElement.textContent = content;
+            }
+        }
+        
+        // Perbarui panel variabel
+        function updateVariablesPanel() {
+            const variablesElement = document.getElementById("variables");
+            
+            if (Object.keys(vars).length === 0) {
+                variablesElement.textContent = "Tidak ada variabel";
+                return;
+            }
+            
+            let html = "";
+            for (const [varName, value] of Object.entries(vars)) {
+                html += `${varName} = ${value}<br>`;
+            }
+            
+            variablesElement.innerHTML = html;
+        }
+        
+        // Bersihkan output
+        function clearOutput() {
+            document.getElementById("output").textContent = "";
+        }
+        
+        // Reset semua (kode dan output)
+        function resetAll() {
+            document.getElementById("code").value = "";
+            clearOutput();
+            vars = {};
+            updateVariablesPanel();
+            document.getElementById("variables").textContent = "Tidak ada variabel";
+        }
+        
+        // Muat contoh kode
+        document.getElementById("loadExample").addEventListener("click", function() {
+            const exampleCode = `READ radius
+pi ← 3.14
+luas ← pi * radius * radius
+WRITE "Luas lingkaran adalah:"
+WRITE luas
+keliling ← 2 * pi * radius
+WRITE "Keliling lingkaran adalah:"
+WRITE keliling`;
+            
+            document.getElementById("code").value = exampleCode;
+        });
+        
+        // Inisialisasi awal
+        updateVariablesPanel();
+    </script>
 </body>
 </html>
