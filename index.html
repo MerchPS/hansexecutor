@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pseudocode Executor</title>
+<style>
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    textarea { width: 100%; height: 150px; }
+    #output { background: #f4f4f4; padding: 10px; margin-top: 10px; }
+</style>
+</head>
+<body>
+<h2>Algoritma Executor Online</h2>
+<textarea id="code" placeholder="Tulis algoritma di sini..."></textarea><br>
+<button onclick="runCode()">Run</button>
+<div id="output"></div>
+
+<script>
+function runCode() {
+    const code = document.getElementById("code").value.trim().split("\n");
+    let vars = {};
+    let output = "";
+
+    for (let line of code) {
+        line = line.trim();
+        if (!line) continue;
+
+        if (line.startsWith("READ")) {
+            let varName = line.split(" ")[1];
+            let val = prompt(`Masukkan nilai untuk ${varName}:`);
+            vars[varName] = Number(val);
+        } else if (line.startsWith("WRITE")) {
+            let varName = line.split(" ")[1];
+            output += (vars[varName] !== undefined ? vars[varName] : varName) + "<br>";
+        } else if (line.includes("←")) {
+            let [varName, expr] = line.split("←").map(s => s.trim());
+            for (let key in vars) {
+                expr = expr.replace(new RegExp("\\b" + key + "\\b", "g"), vars[key]);
+            }
+            vars[varName] = eval(expr);
+        }
+    }
+
+    document.getElementById("output").innerHTML = output || "Tidak ada output";
+}
+</script>
+</body>
+</html>
