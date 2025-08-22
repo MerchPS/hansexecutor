@@ -1,226 +1,377 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pseudocode Executor</title>
-<style>
-    :root {
-        --primary-color: #4a6fa5;
-        --secondary-color: #166088;
-        --accent-color: #4cb5f5;
-        --light-color: #f8f9fa;
-        --dark-color: #343a40;
-        --success-color: #28a745;
-        --danger-color: #dc3545;
-        --warning-color: #ffc107;
-    }
-    
-    body {
-        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        line-height: 1.6;
-        color: var(--dark-color);
-        background-color: #f5f7fa;
-        padding: 20px;
-        max-width: 1000px;
-        margin: 0 auto;
-    }
-    
-    .container {
-        background: white;
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        padding: 25px;
-        margin-bottom: 20px;
-    }
-    
-    h1, h2 {
-        color: var(--primary-color);
-    }
-    
-    h1 {
-        text-align: center;
-        margin-bottom: 30px;
-        padding-bottom: 15px;
-        border-bottom: 2px solid var(--accent-color);
-    }
-    
-    .instructions {
-        background-color: #e9ecef;
-        padding: 15px;
-        border-radius: 5px;
-        margin-bottom: 20px;
-    }
-    
-    textarea {
-        width: 100%;
-        height: 200px;
-        padding: 12px;
-        border: 1px solid #ced4da;
-        border-radius: 4px;
-        font-family: 'Courier New', monospace;
-        font-size: 16px;
-        resize: vertical;
-        box-sizing: border-box;
-        transition: border-color 0.3s;
-    }
-    
-    textarea:focus {
-        border-color: var(--accent-color);
-        outline: none;
-        box-shadow: 0 0 0 3px rgba(76, 181, 245, 0.2);
-    }
-    
-    .button-group {
-        display: flex;
-        gap: 10px;
-        margin: 15px 0;
-    }
-    
-    button {
-        padding: 10px 15px;
-        border: none;
-        border-radius: 4px;
-        cursor: pointer;
-        font-weight: bold;
-        transition: all 0.3s;
-    }
-    
-    .btn-run {
-        background-color: var(--success-color);
-        color: white;
-    }
-    
-    .btn-run:hover {
-        background-color: #218838;
-    }
-    
-    .btn-clear {
-        background-color: var(--warning-color);
-        color: var(--dark-color);
-    }
-    
-    .btn-clear:hover {
-        background-color: #e0a800;
-    }
-    
-    .btn-reset {
-        background-color: var(--danger-color);
-        color: white;
-    }
-    
-    .btn-reset:hover {
-        background-color: #c82333;
-    }
-    
-    .output-container {
-        margin-top: 20px;
-    }
-    
-    #output {
-        background: var(--light-color);
-        padding: 15px;
-        border-radius: 4px;
-        border-left: 4px solid var(--accent-color);
-        min-height: 100px;
-        white-space: pre-wrap;
-        font-family: 'Courier New', monospace;
-    }
-    
-    .variables-panel {
-        margin-top: 20px;
-        background: #e9f7fe;
-        padding: 15px;
-        border-radius: 4px;
-        border-left: 4px solid var(--secondary-color);
-    }
-    
-    .variables-panel h3 {
-        margin-top: 0;
-        color: var(--secondary-color);
-    }
-    
-    #variables {
-        font-family: 'Courier New', monospace;
-    }
-    
-    .error {
-        color: var(--danger-color);
-        font-weight: bold;
-    }
-    
-    .line-number {
-        color: #6c757d;
-        margin-right: 10px;
-        font-size: 0.9em;
-    }
-    
-    .example-link {
-        color: var(--accent-color);
-        cursor: pointer;
-        text-decoration: underline;
-    }
-    
-    footer {
-        text-align: center;
-        margin-top: 30px;
-        color: #6c757d;
-        font-size: 0.9em;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pseudocode Executor Lengkap</title>
+    <style>
+        :root {
+            --primary: #4361ee;
+            --secondary: #3a0ca3;
+            --accent: #7209b7;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #4cc9f0;
+            --warning: #f72585;
+            --info: #4895ef;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        header {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 2.5rem;
+        }
+        
+        .subtitle {
+            color: var(--secondary);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        textarea {
+            width: 100%;
+            height: 300px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: 'Courier New', monospace;
+            font-size: 16px;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            border-color: var(--accent);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin: 15px 0;
+            flex-wrap: wrap;
+        }
+        
+        button {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .btn-run {
+            background: var(--success);
+            color: white;
+        }
+        
+        .btn-run:hover {
+            background: #3aa5d8;
+        }
+        
+        .btn-clear {
+            background: var(--warning);
+            color: white;
+        }
+        
+        .btn-clear:hover {
+            background: #e3126f;
+        }
+        
+        .btn-example {
+            background: var(--info);
+            color: white;
+        }
+        
+        .btn-example:hover {
+            background: #387fdd;
+        }
+        
+        .btn-reset {
+            background: var(--accent);
+            color: white;
+        }
+        
+        .btn-reset:hover {
+            background: #5f0a9b;
+        }
+        
+        #output {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 5px;
+            min-height: 200px;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+        }
+        
+        .variables-panel {
+            margin-top: 20px;
+            padding: 15px;
+            background: #eef7ff;
+            border-radius: 5px;
+            border-left: 4px solid var(--info);
+        }
+        
+        .variables-panel h3 {
+            color: var(--info);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        #variables {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 10px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .var-item {
+            background: white;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+        }
+        
+        .var-name {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .var-value {
+            color: var(--success);
+            font-weight: bold;
+        }
+        
+        .error {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-top: 10px;
+            padding: 10px;
+            background: #ffeaea;
+            border-radius: 5px;
+            border-left: 4px solid #e74c3c;
+        }
+        
+        .success {
+            color: #27ae60;
+            font-weight: bold;
+            margin-top: 10px;
+            padding: 10px;
+            background: #eaffea;
+            border-radius: 5px;
+            border-left: 4px solid #27ae60;
+        }
+        
+        .instructions {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        .instructions h3 {
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .instructions ul {
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+        
+        .instructions li {
+            margin-bottom: 8px;
+        }
+        
+        code {
+            background: #f1f1f1;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        
+        footer {
+            grid-column: 1 / -1;
+            text-align: center;
+            margin-top: 30px;
+            color: #6c757d;
+            font-size: 0.9rem;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
 </head>
 <body>
-    <h1>Pseudocode Executor</h1>
-    
     <div class="container">
-        <div class="instructions">
-            <h3>Cara Penggunaan:</h3>
-            <p>Gunakan sintaks berikut dalam pseudocode Anda:</p>
-            <ul>
-                <li><code>READ nama_variabel</code> - Untuk membaca input dari pengguna</li>
-                <li><code>WRITE nilai/teks</code> - Untuk menampilkan output</li>
-                <li><code>variabel ← ekspresi</code> - Untuk assignment nilai (gunakan ← bukan &lt;-)</li>
-            </ul>
-            <p>Contoh: <span class="example-link" id="loadExample">Muat contoh algoritma</span></p>
+        <header>
+            <h1>Pseudocode Executor</h1>
+            <p class="subtitle">Jalankan algoritma pseudocode secara online dengan fitur auto-correct</p>
+        </header>
+        
+        <div class="card">
+            <div class="card-header">
+                <span>Editor Kode</span>
+                <span>📝</span>
+            </div>
+            <div class="card-body">
+                <div class="instructions">
+                    <h3>Format yang Didukung:</h3>
+                    <ul>
+                        <li><code>READ variable</code> - Input nilai</li>
+                        <li><code>WRITE expression</code> - Output nilai</li>
+                        <li><code>variable ← expression</code> - Assignment</li>
+                        <li><code>IF condition THEN</code> - Kondisional</li>
+                        <li><code>FOR variable FROM start TO end</code> - Perulangan</li>
+                        <li><code>WHILE condition</code> - Perulangan while</li>
+                    </ul>
+                </div>
+                
+                <textarea id="code" placeholder="Tulis algoritma di sini...">
+READ n
+sum ← 0
+i ← 1
+
+WHILE i <= n
+    sum ← sum + i
+    i ← i + 1
+END WHILE
+
+WRITE "Jumlah dari 1 hingga "
+WRITE n
+WRITE " adalah "
+WRITE sum</textarea>
+                
+                <div class="button-group">
+                    <button class="btn-run" onclick="runCode()">
+                        <span>▶️</span> Jalankan Kode
+                    </button>
+                    <button class="btn-clear" onclick="clearOutput()">
+                        <span>🗑️</span> Bersihkan Output
+                    </button>
+                    <button class="btn-example" onclick="loadExample()">
+                        <span>📋</span> Contoh Lain
+                    </button>
+                    <button class="btn-reset" onclick="resetAll()">
+                        <span>🔄</span> Reset Semua
+                    </button>
+                </div>
+                
+                <div id="error-container"></div>
+            </div>
         </div>
         
-        <textarea id="code" placeholder="Tulis algoritma di sini...
-Contoh:
-READ radius
-pi ← 3.14
-luas ← pi * radius * radius
-WRITE luas"></textarea>
-        
-        <div class="button-group">
-            <button class="btn-run" onclick="runCode()">Jalankan Kode</button>
-            <button class="btn-clear" onclick="clearOutput()">Bersihkan Output</button>
-            <button class="btn-reset" onclick="resetAll()">Reset Semua</button>
+        <div class="card">
+            <div class="card-header">
+                <span>Output</span>
+                <span>📊</span>
+            </div>
+            <div class="card-body">
+                <div id="output">Output akan ditampilkan di sini...</div>
+                
+                <div class="variables-panel">
+                    <h3><span>📋</span> Variabel</h3>
+                    <div id="variables">Tidak ada variabel</div>
+                </div>
+            </div>
         </div>
         
-        <div class="output-container">
-            <h2>Output</h2>
-            <div id="output">Output akan ditampilkan di sini...</div>
-        </div>
-        
-        <div class="variables-panel">
-            <h3>Variabel Saat Ini</h3>
-            <div id="variables">Tidak ada variabel</div>
-        </div>
+        <footer>
+            Pseudocode Executor &copy; 2023 - Dilengkapi dengan fitur auto-correct dan eksekusi algoritma
+        </footer>
     </div>
-    
-    <footer>
-        Pseudocode Executor &copy; 2023 - Dibuat untuk memudahkan pembelajaran algoritma
-    </footer>
 
     <script>
         // Objek untuk menyimpan variabel
         let vars = {};
+        let outputElement = null;
+        let errorContainer = null;
+        
+        // Inisialisasi setelah halaman dimuat
+        window.onload = function() {
+            outputElement = document.getElementById("output");
+            errorContainer = document.getElementById("error-container");
+            updateVariablesPanel();
+        };
         
         // Fungsi untuk menjalankan kode
         function runCode() {
             const codeText = document.getElementById("code").value.trim();
             if (!codeText) {
-                showOutput("error", "Tidak ada kode untuk dijalankan.");
+                showError("Tidak ada kode untuk dijalankan.");
                 return;
             }
             
@@ -228,45 +379,110 @@ WRITE luas"></textarea>
             let output = "";
             vars = {}; // Reset variabel setiap run
             
-            // Bersihkan output sebelumnya
+            // Bersihkan output dan error sebelumnya
             clearOutput();
+            clearError();
             
-            for (let i = 0; i < codeLines.length; i++) {
-                let line = codeLines[i].trim();
-                if (!line) continue;
+            // Tambahkan fungsi bawaan
+            vars["SUM"] = function(args) {
+                if (!args || args.length === 0) return 0;
+                return args.reduce((total, num) => total + num, 0);
+            };
+            
+            vars["AVERAGE"] = function(args) {
+                if (!args || args.length === 0) return 0;
+                const sum = vars["SUM"](args);
+                return sum / args.length;
+            };
+            
+            vars["MAX"] = function(args) {
+                if (!args || args.length === 0) return 0;
+                return Math.max(...args);
+            };
+            
+            vars["MIN"] = function(args) {
+                if (!args || args.length === 0) return 0;
+                return Math.min(...args);
+            };
+            
+            try {
+                // Preprocessing: Auto-correct dan normalisasi
+                const processedLines = preprocessCode(codeLines);
                 
-                try {
+                // Eksekusi baris per baris
+                for (let i = 0; i < processedLines.length; i++) {
+                    const line = processedLines[i];
+                    if (!line.trim()) continue;
+                    
                     if (line.startsWith("READ")) {
                         processRead(line, i+1);
                     } else if (line.startsWith("WRITE")) {
                         output += processWrite(line, i+1) + "\n";
                     } else if (line.includes("←")) {
                         processAssignment(line, i+1);
+                    } else if (line.startsWith("IF")) {
+                        i = processConditional(processedLines, i);
+                    } else if (line.startsWith("FOR")) {
+                        i = processForLoop(processedLines, i);
+                    } else if (line.startsWith("WHILE")) {
+                        i = processWhileLoop(processedLines, i);
+                    } else if (line.startsWith("END") || line.startsWith("NEXT")) {
+                        // Abaikan END IF, END WHILE, NEXT
+                        continue;
                     } else {
-                        showOutput("error", `Error pada baris ${i+1}: Sintaks tidak dikenali - "${line}"`);
+                        throw new Error(`Sintaks tidak dikenali: "${line}"`);
                     }
-                } catch (error) {
-                    showOutput("error", `Error pada baris ${i+1}: ${error.message}`);
-                    return;
                 }
-            }
-            
-            // Tampilkan output
-            if (output) {
-                showOutput("normal", output);
-            } else {
-                showOutput("normal", "Program selesai dieksekusi. Tidak ada output yang dihasilkan.");
+                
+                // Tampilkan output
+                if (output) {
+                    outputElement.textContent = output;
+                    showSuccess("Program berhasil dieksekusi!");
+                } else {
+                    outputElement.textContent = "Program selesai dieksekusi. Tidak ada output yang dihasilkan.";
+                }
+            } catch (error) {
+                showError(error.message);
             }
             
             // Perbarui tampilan variabel
             updateVariablesPanel();
         }
         
+        // Preprocessing kode dengan auto-correct
+        function preprocessCode(lines) {
+            const processed = [];
+            
+            for (let i = 0; i < lines.length; i++) {
+                let line = lines[i].trim();
+                
+                // Auto-correct umum
+                line = line.replace(/->/g, "←");
+                line = line.replace(/:=/g, "←");
+                line = line.replace(/=/g, "←");
+                
+                // Normalisasi perintah
+                line = line.replace(/^input /i, "READ ");
+                line = line.replace(/^print /i, "WRITE ");
+                line = line.replace(/^display /i, "WRITE ");
+                
+                // Normalisasi struktur kontrol
+                line = line.replace(/^elseif /i, "ELSE IF ");
+                line = line.replace(/^endif/i, "END IF");
+                line = line.replace(/^endwhile/i, "END WHILE");
+                line = line.replace(/^endfor/i, "END FOR");
+                
+                if (line) processed.push(line);
+            }
+            
+            return processed;
+        }
+        
         // Proses statement READ
         function processRead(line, lineNumber) {
             const parts = line.split(" ");
-            if (parts.length !== 2) {
-                throw new Error(`Sintaks READ tidak valid. Gunakan: READ nama_variabel`);
+            if (parts.length < 2) {
+                throw new Error(`[Baris ${lineNumber}] Sintaks READ tidak valid. Gunakan: READ nama_variabel`);
             }
             
             const varName = parts[1];
@@ -280,7 +496,7 @@ WRITE luas"></textarea>
             const numericValue = parseFloat(inputValue);
             
             if (isNaN(numericValue)) {
-                throw new Error(`Input harus numerik untuk variabel ${varName}`);
+                throw new Error(`[Baris ${lineNumber}] Input harus numerik untuk variabel ${varName}`);
             }
             
             vars[varName] = numericValue;
@@ -291,13 +507,19 @@ WRITE luas"></textarea>
             const expression = line.substring(5).trim();
             
             if (!expression) {
-                throw new Error("Sintaks WRITE tidak valid. Gunakan: WRITE nilai/teks");
+                throw new Error(`[Baris ${lineNumber}] Sintaks WRITE tidak valid. Gunakan: WRITE nilai/teks`);
+            }
+            
+            // Jika dalam tanda kutip, anggap sebagai teks
+            if ((expression.startsWith('"') && expression.endsWith('"')) || 
+                (expression.startsWith("'") && expression.endsWith("'"))) {
+                return expression.substring(1, expression.length - 1);
             }
             
             // Coba evaluasi sebagai ekspresi matematika
             try {
                 const result = evaluateExpression(expression);
-                return result;
+                return result.toString();
             } catch (e) {
                 // Jika bukan ekspresi matematika, anggap sebagai teks
                 return expression;
@@ -308,18 +530,18 @@ WRITE luas"></textarea>
         function processAssignment(line, lineNumber) {
             const parts = line.split("←");
             if (parts.length !== 2) {
-                throw new Error("Sintaks assignment tidak valid. Gunakan: variabel ← ekspresi");
+                throw new Error(`[Baris ${lineNumber}] Sintaks assignment tidak valid. Gunakan: variabel ← ekspresi`);
             }
             
             const varName = parts[0].trim();
             const expression = parts[1].trim();
             
             if (!varName) {
-                throw new Error("Nama variabel tidak boleh kosong");
+                throw new Error(`[Baris ${lineNumber}] Nama variabel tidak boleh kosong`);
             }
             
             if (!expression) {
-                throw new Error("Ekspresi tidak boleh kosong");
+                throw new Error(`[Baris ${lineNumber}] Ekspresi tidak boleh kosong`);
             }
             
             // Evaluasi ekspresi
@@ -327,17 +549,203 @@ WRITE luas"></textarea>
             vars[varName] = result;
         }
         
+        // Proses conditional (IF)
+        function processConditional(lines, currentIndex) {
+            const ifLine = lines[currentIndex];
+            const conditionExpr = ifLine.substring(2).replace("THEN", "").trim();
+            
+            // Evaluasi kondisi
+            const conditionResult = evaluateCondition(conditionExpr);
+            
+            let foundElse = false;
+            let endIfIndex = currentIndex;
+            
+            // Cari ELSE dan END IF
+            for (let i = currentIndex + 1; i < lines.length; i++) {
+                if (lines[i].startsWith("ELSE")) {
+                    foundElse = true;
+                }
+                if (lines[i].startsWith("END IF")) {
+                    endIfIndex = i;
+                    break;
+                }
+            }
+            
+            if (endIfIndex === currentIndex) {
+                throw new Error(`[Baris ${currentIndex+1}] IF tanpa END IF`);
+            }
+            
+            if (conditionResult) {
+                // Eksekusi blok IF
+                const start = currentIndex + 1;
+                const end = foundElse ? lines.findIndex((line, idx) => idx > currentIndex && line.startsWith("ELSE")) : endIfIndex;
+                
+                for (let i = start; i < end; i++) {
+                    const line = lines[i];
+                    if (line.startsWith("IF")) {
+                        i = processConditional(lines, i);
+                    } else if (line.startsWith("FOR")) {
+                        i = processForLoop(lines, i);
+                    } else if (line.startsWith("WHILE")) {
+                        i = processWhileLoop(lines, i);
+                    } else if (line.startsWith("END") || line.startsWith("NEXT") || line.startsWith("ELSE")) {
+                        // Lewati
+                    } else if (line.startsWith("READ")) {
+                        processRead(line, i+1);
+                    } else if (line.startsWith("WRITE")) {
+                        const output = processWrite(line, i+1);
+                        outputElement.textContent += output + "\n";
+                    } else if (line.includes("←")) {
+                        processAssignment(line, i+1);
+                    }
+                }
+            } else if (foundElse) {
+                // Eksekusi blok ELSE
+                const elseIndex = lines.findIndex((line, idx) => idx > currentIndex && line.startsWith("ELSE"));
+                const start = elseIndex + 1;
+                const end = endIfIndex;
+                
+                for (let i = start; i < end; i++) {
+                    const line = lines[i];
+                    if (line.startsWith("IF")) {
+                        i = processConditional(lines, i);
+                    } else if (line.startsWith("FOR")) {
+                        i = processForLoop(lines, i);
+                    } else if (line.startsWith("WHILE")) {
+                        i = processWhileLoop(lines, i);
+                    } else if (line.startsWith("END") || line.startsWith("NEXT")) {
+                        // Lewati
+                    } else if (line.startsWith("READ")) {
+                        processRead(line, i+1);
+                    } else if (line.startsWith("WRITE")) {
+                        const output = processWrite(line, i+1);
+                        outputElement.textContent += output + "\n";
+                    } else if (line.includes("←")) {
+                        processAssignment(line, i+1);
+                    }
+                }
+            }
+            
+            return endIfIndex;
+        }
+        
+        // Proses perulangan FOR
+        function processForLoop(lines, currentIndex) {
+            const forLine = lines[currentIndex];
+            const parts = forLine.split(" ");
+            
+            if (parts.length < 5 || parts[2] !== "FROM" || parts[4] !== "TO") {
+                throw new Error(`[Baris ${currentIndex+1}] Sintaks FOR tidak valid. Gunakan: FOR variable FROM start TO end`);
+            }
+            
+            const varName = parts[1];
+            const start = parseInt(evaluateExpression(parts[3]));
+            const end = parseInt(evaluateExpression(parts[5]));
+            
+            let step = 1;
+            if (parts.length > 6 && parts[6] === "STEP") {
+                step = parseInt(evaluateExpression(parts[7]));
+            }
+            
+            // Cari END FOR atau NEXT
+            let endForIndex = -1;
+            for (let i = currentIndex + 1; i < lines.length; i++) {
+                if (lines[i].startsWith("END FOR") || lines[i].startsWith("NEXT")) {
+                    endForIndex = i;
+                    break;
+                }
+            }
+            
+            if (endForIndex === -1) {
+                throw new Error(`[Baris ${currentIndex+1}] FOR tanpa END FOR atau NEXT`);
+            }
+            
+            // Eksekusi perulangan
+            for (let i = start; step > 0 ? i <= end : i >= end; i += step) {
+                vars[varName] = i;
+                
+                // Eksekusi blok perulangan
+                for (let j = currentIndex + 1; j < endForIndex; j++) {
+                    const line = lines[j];
+                    if (line.startsWith("IF")) {
+                        j = processConditional(lines, j);
+                    } else if (line.startsWith("FOR")) {
+                        j = processForLoop(lines, j);
+                    } else if (line.startsWith("WHILE")) {
+                        j = processWhileLoop(lines, j);
+                    } else if (line.startsWith("END") || line.startsWith("NEXT")) {
+                        // Lewati
+                    } else if (line.startsWith("READ")) {
+                        processRead(line, j+1);
+                    } else if (line.startsWith("WRITE")) {
+                        const output = processWrite(line, j+1);
+                        outputElement.textContent += output + "\n";
+                    } else if (line.includes("←")) {
+                        processAssignment(line, j+1);
+                    }
+                }
+            }
+            
+            return endForIndex;
+        }
+        
+        // Proses perulangan WHILE
+        function processWhileLoop(lines, currentIndex) {
+            const whileLine = lines[currentIndex];
+            const conditionExpr = whileLine.substring(5).trim();
+            
+            // Cari END WHILE
+            let endWhileIndex = -1;
+            for (let i = currentIndex + 1; i < lines.length; i++) {
+                if (lines[i].startsWith("END WHILE")) {
+                    endWhileIndex = i;
+                    break;
+                }
+            }
+            
+            if (endWhileIndex === -1) {
+                throw new Error(`[Baris ${currentIndex+1}] WHILE tanpa END WHILE`);
+            }
+            
+            // Eksekusi perulangan selama kondisi benar
+            while (evaluateCondition(conditionExpr)) {
+                // Eksekusi blok perulangan
+                for (let j = currentIndex + 1; j < endWhileIndex; j++) {
+                    const line = lines[j];
+                    if (line.startsWith("IF")) {
+                        j = processConditional(lines, j);
+                    } else if (line.startsWith("FOR")) {
+                        j = processForLoop(lines, j);
+                    } else if (line.startsWith("WHILE")) {
+                        j = processWhileLoop(lines, j);
+                    } else if (line.startsWith("END") || line.startsWith("NEXT")) {
+                        // Lewati
+                    } else if (line.startsWith("READ")) {
+                        processRead(line, j+1);
+                    } else if (line.startsWith("WRITE")) {
+                        const output = processWrite(line, j+1);
+                        outputElement.textContent += output + "\n";
+                    } else if (line.includes("←")) {
+                        processAssignment(line, j+1);
+                    }
+                }
+            }
+            
+            return endWhileIndex;
+        }
+        
         // Fungsi untuk mengevaluasi ekspresi matematika dengan aman
         function evaluateExpression(expr) {
             // Ganti semua variabel dalam ekspresi dengan nilainya
             let evaluatedExpr = expr;
             for (const [varName, value] of Object.entries(vars)) {
+                if (typeof value === 'function') continue; // Skip functions
                 const regex = new RegExp(`\\b${varName}\\b`, 'g');
                 evaluatedExpr = evaluatedExpr.replace(regex, value);
             }
             
             // Validasi ekspresi untuk mencegah kode berbahaya
-            const safeExpr = evaluatedExpr.replace(/[^0-9+\-*/().]/g, '');
+            const safeExpr = evaluatedExpr.replace(/[^0-9+\-*/().><=!&|%\s]/g, '');
             
             try {
                 // Gunakan Function constructor untuk evaluasi yang lebih aman
@@ -347,14 +755,29 @@ WRITE luas"></textarea>
             }
         }
         
-        // Tampilkan output
-        function showOutput(type, content) {
-            const outputElement = document.getElementById("output");
+        // Fungsi untuk mengevaluasi kondisi
+        function evaluateCondition(conditionExpr) {
+            // Ganti semua variabel dalam ekspresi dengan nilainya
+            let evaluatedExpr = conditionExpr;
+            for (const [varName, value] of Object.entries(vars)) {
+                if (typeof value === 'function') continue; // Skip functions
+                const regex = new RegExp(`\\b${varName}\\b`, 'g');
+                evaluatedExpr = evaluatedExpr.replace(regex, value);
+            }
             
-            if (type === "error") {
-                outputElement.innerHTML = `<span class="error">${content}</span>`;
-            } else {
-                outputElement.textContent = content;
+            // Ganti operator logika
+            evaluatedExpr = evaluatedExpr.replace(/ AND /gi, " && ");
+            evaluatedExpr = evaluatedExpr.replace(/ OR /gi, " || ");
+            evaluatedExpr = evaluatedExpr.replace(/ NOT /gi, " ! ");
+            
+            // Validasi ekspresi untuk mencegah kode berbahaya
+            const safeExpr = evaluatedExpr.replace(/[^0-9+\-*/().><=!&|%\s]/g, '');
+            
+            try {
+                // Gunakan Function constructor untuk evaluasi yang lebih aman
+                return Function(`"use strict"; return (${safeExpr})`)();
+            } catch (e) {
+                throw new Error(`Kondisi tidak valid: ${conditionExpr}`);
             }
         }
         
@@ -363,48 +786,96 @@ WRITE luas"></textarea>
             const variablesElement = document.getElementById("variables");
             
             if (Object.keys(vars).length === 0) {
-                variablesElement.textContent = "Tidak ada variabel";
+                variablesElement.innerHTML = "Tidak ada variabel";
                 return;
             }
             
             let html = "";
             for (const [varName, value] of Object.entries(vars)) {
-                html += `${varName} = ${value}<br>`;
+                if (typeof value === 'function') continue; // Skip functions
+                html += `
+                    <div class="var-item">
+                        <span class="var-name">${varName}</span>
+                        <span> = </span>
+                        <span class="var-value">${value}</span>
+                    </div>
+                `;
             }
             
             variablesElement.innerHTML = html;
         }
         
+        // Tampilkan error
+        function showError(message) {
+            errorContainer.innerHTML = `<div class="error">${message}</div>`;
+        }
+        
+        // Tampilkan pesan sukses
+        function showSuccess(message) {
+            errorContainer.innerHTML = `<div class="success">${message}</div>`;
+        }
+        
+        // Bersihkan error
+        function clearError() {
+            errorContainer.innerHTML = "";
+        }
+        
         // Bersihkan output
         function clearOutput() {
-            document.getElementById("output").textContent = "";
+            outputElement.textContent = "";
         }
         
         // Reset semua (kode dan output)
         function resetAll() {
             document.getElementById("code").value = "";
             clearOutput();
+            clearError();
             vars = {};
             updateVariablesPanel();
-            document.getElementById("variables").textContent = "Tidak ada variabel";
         }
         
         // Muat contoh kode
-        document.getElementById("loadExample").addEventListener("click", function() {
-            const exampleCode = `READ radius
-pi ← 3.14
-luas ← pi * radius * radius
-WRITE "Luas lingkaran adalah:"
-WRITE luas
-keliling ← 2 * pi * radius
-WRITE "Keliling lingkaran adalah:"
-WRITE keliling`;
+        function loadExample() {
+            const examples = [
+                `READ n
+sum ← 0
+i ← 1
+
+WHILE i <= n
+    sum ← sum + i
+    i ← i + 1
+END WHILE
+
+WRITE "Jumlah dari 1 hingga "
+WRITE n
+WRITE " adalah "
+WRITE sum`,
+                `READ a
+READ b
+
+IF a > b THEN
+    WRITE "Nilai terbesar adalah "
+    WRITE a
+ELSE
+    WRITE "Nilai terbesar adalah "
+    WRITE b
+END IF`,
+                `WRITE "Deret Fibonacci"
+READ n
+a ← 0
+b ← 1
+
+FOR i FROM 1 TO n
+    WRITE a
+    next ← a + b
+    a ← b
+    b ← next
+END FOR`
+            ];
             
-            document.getElementById("code").value = exampleCode;
-        });
-        
-        // Inisialisasi awal
-        updateVariablesPanel();
+            const randomExample = examples[Math.floor(Math.random() * examples.length)];
+            document.getElementById("code").value = randomExample;
+        }
     </script>
 </body>
 </html>
